@@ -1,0 +1,41 @@
+server:
+  metrics_host: 0.0.0.0
+  metrics_port: 8081
+  refresh_interval_seconds: 3
+
+monitor:
+  log_path: /var/log/nginx/hng-access.log
+  poll_interval_seconds: 0.2
+
+windows:
+  sliding_window_seconds: 60
+  baseline_window_seconds: 1800
+  recalc_interval_seconds: 60
+  min_hour_samples: 300
+  active_ip_ttl_seconds: 3600
+
+thresholds:
+  zscore: 3.0
+  rate_multiplier: 5.0
+  error_surge_multiplier: 3.0
+  tightened_zscore: 2.0
+  tightened_rate_multiplier: 3.0
+  minimum_mean_rps: 0.2
+  minimum_stddev_rps: 0.05
+  minimum_error_rate: 0.01
+  global_alert_cooldown_seconds: 120
+  ip_alert_cooldown_seconds: 30
+
+blocking:
+  chain: INPUT
+  action: DROP
+  durations_minutes: [10, 30, 120]
+
+notifications:
+  slack_webhook_url: ${SLACK_WEBHOOK_URL}
+  enabled: false
+  timeout_seconds: 5
+
+logging:
+  audit_log_path: /app/detector/audit.log
+  level: INFO
