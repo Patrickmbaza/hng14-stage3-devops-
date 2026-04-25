@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 
 import psutil
 from flask import Flask, jsonify
+from waitress import serve
 
 from detector.baseline import BaselineManager
 from detector.state import RuntimeState
@@ -144,4 +145,4 @@ class DashboardServer:
             )
 
     def run(self, host: str, port: int) -> None:
-        self.app.run(host=host, port=port, debug=False, use_reloader=False)
+        serve(self.app, host=host, port=port)

@@ -55,6 +55,7 @@ class BaselineManager:
         self.hourly_effective_means: dict[str, dict[str, float]] = defaultdict(dict)
         self.last_second_epoch: int | None = None
         self.last_seen: dict[str, float] = {}
+        self.known_keys: set[str] = {"global"}
 
     def observe(self, timestamp_epoch: float, source_ip: str, is_error: bool) -> None:
         second_epoch = int(timestamp_epoch)
@@ -67,6 +68,7 @@ class BaselineManager:
 
             self.current_second_counts["global"] += 1
             self.current_second_counts[source_ip] += 1
+            self.known_keys.add(source_ip)
             self.last_seen["global"] = timestamp_epoch
             self.last_seen[source_ip] = timestamp_epoch
 
@@ -77,7 +79,12 @@ class BaselineManager:
     def _flush_current_second(self, second_epoch: int) -> None:
         second_dt = datetime.fromtimestamp(second_epoch, tz=timezone.utc)
         hour_key = second_dt.strftime("%Y-%m-%dT%H:00:00Z")
-        keys = set(self.current_second_counts) | set(self.current_second_errors)
+        keys = (
+            set(self.known_keys)
+            | set(self.hourly_counts.keys())
+            | set(self.current_second_counts)
+            | set(self.current_second_errors)
+        )
         for key in keys:
             slot = self.hourly_counts[key].get(hour_key)
             if slot is None:
@@ -104,6 +111,7 @@ class BaselineManager:
                     self.snapshots.pop(key, None)
                     self.hourly_effective_means.pop(key, None)
                     self.last_seen.pop(key, None)
+                    self.known_keys.discard(key)
 
             for key in list(self.hourly_counts.keys()):
                 snapshot = self._build_snapshot(key, now_epoch)
