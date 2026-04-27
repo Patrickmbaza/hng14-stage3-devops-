@@ -158,15 +158,15 @@ Main runtime config:
 
 - `detector/config.yaml`
 
-Current tuned thresholds used for reliable evidence capture:
+Current detection thresholds:
 
 ```yaml
 thresholds:
-  zscore: 2.0
-  rate_multiplier: 3.0
-  error_surge_multiplier: 2.0
-  tightened_zscore: 1.5
-  tightened_rate_multiplier: 2.0
+  zscore: 3.0
+  rate_multiplier: 5.0
+  error_surge_multiplier: 3.0
+  tightened_zscore: 2.0
+  tightened_rate_multiplier: 3.0
 ```
 
 Other notable settings:
@@ -301,10 +301,10 @@ An IP is treated as anomalous if either condition fires first:
 - z-score exceeds threshold
 - current IP rate exceeds the configured multiplier of baseline mean
 
-Current demo thresholds:
+Current thresholds:
 
-- `zscore > 2.0`
-- `rate > 3.0x baseline`
+- `zscore > 3.0`
+- `rate > 5.0x baseline`
 
 ### Global anomaly conditions
 
@@ -361,9 +361,9 @@ Format:
 Examples:
 
 ```text
-[2026-04-27T09:25:51.470829+00:00] BAN 3.89.119.100 | ip-rate>3.0x | 0.617 | 0.200 | 10m
-[2026-04-27T09:35:51.650012+00:00] UNBAN 3.89.119.100 | ip-rate>3.0x | 0.617 | 0.200 | released
-[2026-04-27T09:25:51.545036+00:00] GLOBAL_ALERT global | global-rate>3.0x | 0.617 | 0.200 | n/a
+[2026-04-27T09:25:51.470829+00:00] BAN 3.89.119.100 | ip-rate>5.0x | 0.617 | 0.200 | 10m
+[2026-04-27T09:35:51.650012+00:00] UNBAN 3.89.119.100 | ip-rate>5.0x | 0.617 | 0.200 | released
+[2026-04-27T09:25:51.545036+00:00] GLOBAL_ALERT global | global-rate>5.0x | 0.617 | 0.200 | n/a
 ```
 
 ## iptables Snapshot Logging
