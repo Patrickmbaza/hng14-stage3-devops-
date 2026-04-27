@@ -42,6 +42,8 @@ services:
       - HNG-nginx-logs:/var/log/nginx:ro
     environment:
       - DETECTOR_CONFIG=/app/detector/config.yaml
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - DETECTOR_NOTIFICATIONS_ENABLED=${DETECTOR_NOTIFICATIONS_ENABLED}
 
 networks:
   app:
