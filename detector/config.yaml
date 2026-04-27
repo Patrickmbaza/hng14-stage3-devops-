@@ -42,4 +42,4 @@ logging:
   audit_log_path: /app/detector/audit.log
   iptables_snapshot_path: /app/detector/iptables_snapshot.log
   level: INFO
-  log_each_request: true
+  log_each_request: false
