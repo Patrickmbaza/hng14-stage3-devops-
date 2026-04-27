@@ -33,7 +33,7 @@ blocking:
 
 notifications:
   slack_webhook_url: ${SLACK_WEBHOOK_URL}
-  enabled: false
+  enabled: ${DETECTOR_NOTIFICATIONS_ENABLED}
   timeout_seconds: 5
 
 logging:

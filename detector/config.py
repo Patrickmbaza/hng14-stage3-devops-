@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import os
 from pathlib import Path
 from typing import Any
 
@@ -42,5 +43,6 @@ class AppConfig:
 
 def load_config(path: str | Path) -> AppConfig:
     with Path(path).expanduser().open("r", encoding="utf-8") as handle:
-        data = yaml.safe_load(handle)
+        raw_text = handle.read()
+    data = yaml.safe_load(os.path.expandvars(raw_text))
     return AppConfig(raw=data)
