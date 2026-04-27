@@ -63,6 +63,7 @@ def main() -> None:
             global_alert_cooldown_seconds=config.thresholds["global_alert_cooldown_seconds"],
             ip_alert_cooldown_seconds=config.thresholds["ip_alert_cooldown_seconds"],
         ),
+        whitelist_ips=set(config.blocking.get("whitelist_ips", [])),
     )
     dashboard = DashboardServer(state=state, baseline_manager=baseline_manager)
     monitor = LogMonitor(

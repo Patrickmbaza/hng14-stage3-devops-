@@ -30,6 +30,8 @@ blocking:
   chain: INPUT
   action: DROP
   durations_minutes: [10, 30, 120]
+  whitelist_ips:
+    - "102.90.100.200"
 
 notifications:
   slack_webhook_url: ${SLACK_WEBHOOK_URL}

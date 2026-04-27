@@ -38,6 +38,7 @@ class AnomalyDetector:
         notifier: Notifier,
         audit_logger: AuditLogger,
         thresholds: DetectionThresholds,
+        whitelist_ips: set[str] | None = None,
     ) -> None:
         self.state = state
         self.baseline_manager = baseline_manager
@@ -45,6 +46,7 @@ class AnomalyDetector:
         self.notifier = notifier
         self.audit_logger = audit_logger
         self.thresholds = thresholds
+        self.whitelist_ips = whitelist_ips or set()
 
     def on_request(self, timestamp_epoch: float, source_ip: str, status_code: int) -> None:
         is_error = status_code >= 400
@@ -65,6 +67,8 @@ class AnomalyDetector:
         )
 
     def _evaluate_ip(self, timestamp_epoch: float, source_ip: str) -> None:
+        if source_ip in self.whitelist_ips:
+            return
         if self.state.is_banned(source_ip):
             return
         baseline = self.baseline_manager.get_snapshot(source_ip)
