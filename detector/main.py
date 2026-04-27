@@ -7,7 +7,7 @@ import time
 
 from detector.audit import AuditLogger
 from detector.baseline import BaselineManager
-from detector.blocker import Blocker
+from detector.blocker import Blocker, IptablesSnapshotWriter
 from detector.config import load_config
 from detector.dashboard import DashboardServer
 from detector.detector import AnomalyDetector, DetectionThresholds
@@ -34,7 +34,15 @@ def main() -> None:
         minimum_stddev_rps=config.thresholds["minimum_stddev_rps"],
         minimum_error_rate=config.thresholds["minimum_error_rate"],
     )
-    blocker = Blocker(chain=config.blocking["chain"], action=config.blocking["action"])
+    snapshot_writer = IptablesSnapshotWriter(
+        file_path=config.logging["iptables_snapshot_path"],
+        chain=config.blocking["chain"],
+    )
+    blocker = Blocker(
+        chain=config.blocking["chain"],
+        action=config.blocking["action"],
+        snapshot_writer=snapshot_writer,
+    )
     notifier = Notifier(
         webhook_url=config.notifications["slack_webhook_url"],
         enabled=config.notifications["enabled"],
