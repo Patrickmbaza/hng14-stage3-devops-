@@ -15,11 +15,11 @@ windows:
   active_ip_ttl_seconds: 3600
 
 thresholds:
-  zscore: 3.0
-  rate_multiplier: 5.0
-  error_surge_multiplier: 3.0
-  tightened_zscore: 2.0
-  tightened_rate_multiplier: 3.0
+  zscore: 2.0
+  rate_multiplier: 3.0
+  error_surge_multiplier: 2.0
+  tightened_zscore: 1.5
+  tightened_rate_multiplier: 2.0
   minimum_mean_rps: 0.2
   minimum_stddev_rps: 0.05
   minimum_error_rate: 0.01
