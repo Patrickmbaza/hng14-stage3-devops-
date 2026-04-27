@@ -21,6 +21,7 @@ def main() -> None:
     config = load_config(os.environ.get("DETECTOR_CONFIG", "/app/detector/config.yaml"))
     logging.basicConfig(level=getattr(logging, config.logging["level"], logging.INFO))
     audit_logger = AuditLogger(config.logging["audit_log_path"])
+    log_each_request = bool(config.logging.get("log_each_request", False))
 
     state = RuntimeState(
         sliding_window_seconds=config.windows["sliding_window_seconds"],
@@ -63,13 +64,14 @@ def main() -> None:
     unbanner = Unbanner(state=state, detector=detector)
 
     def handle_record(record: dict[str, object]) -> None:
-        logging.info(
-            "event source_ip=%s method=%s path=%s status=%s",
-            record.get("source_ip"),
-            record.get("method"),
-            record.get("path"),
-            record.get("status"),
-        )
+        if log_each_request:
+            logging.info(
+                "event source_ip=%s method=%s path=%s status=%s",
+                record.get("source_ip"),
+                record.get("method"),
+                record.get("path"),
+                record.get("status"),
+            )
         detector.on_request(
             timestamp_epoch=float(record["timestamp_epoch"]),
             source_ip=str(record["source_ip"]),

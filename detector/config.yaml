@@ -39,3 +39,4 @@ notifications:
 logging:
   audit_log_path: /app/detector/audit.log
   level: INFO
+  log_each_request: false
