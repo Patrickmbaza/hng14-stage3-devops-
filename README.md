@@ -464,6 +464,10 @@ It must be replaced with a real architecture diagram before submission.
 
 ## Useful Commands
 
+Traffic generation examples using `curl` and Apache Benchmark are documented in:
+
+- `docs/TESTING.md`
+
 Start the stack:
 
 ```bash
