@@ -13,7 +13,7 @@ It was not modified or replaced.
 ## Live Submission Details
 
 - Server IP: `54.90.137.142`
-- Metrics dashboard URL: `http://mbaza.duckdns.org:8081/`
+- Metrics dashboard URL: `http://mbaza.duckdns.org:8081`
 - Language used: `Python`
 - GitHub repository: https://github.com/Patrickmbaza/hng14-stage3-devops-
 - Blog post: https://dev.to/goteh_mbaza_e513bdbf1871a/-how-i-built-a-real-time-http-anomaly-detector-for-cloudng-with-python-nginx-docker-and-1d01
